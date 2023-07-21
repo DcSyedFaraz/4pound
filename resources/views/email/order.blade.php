@@ -1,202 +1,168 @@
-
 @extends('email.layouts.layout')
-
 @section('content')
-    
-    @if ($flag == true)
-        <p>
-            Hello!
-        </p>
-        <p style="font-weight:bold ;font-size:20px">{{ $user->name }}</p>
-        <p>Greetings From {{ config('app.name') }}</p>
-        <p>Your Account has been created successfully the following are your login credentials.</p>
-
-        <p style="font-size:25px ;font-bold ;margin-bottom:20px;text-align:center;color:black">Account Details</p>
+    <div>
         <table align="center">
-            <tr>
-                <th
-                    style="border: 2px solid #463033;text-align: left;padding: 8px;width: 14rem;color: #463033;font-size: 17px;">
-                    email</th>
-                <td
-                    style="border: 2px solid #463033;text-align: left;padding: 8px;width: 14rem;color: #463033;font-size: 17px;">
-                    <strong>{{ $user->email }}</strong>
-                </td>
-            </tr>
-            <tr>
-                <th
-                    style="border: 2px solid #463033;text-align: left;padding: 8px;width: 14rem;color: #463033;font-size: 17px;">
-                    password</th>
-                <td
-                    style="border: 2px solid #463033;text-align: left;padding: 8px;width: 14rem;color: #463033;font-size: 17px;">
-                    <strong>{{ $password }}</strong>
-                </td>
 
-            </tr>
+            <tbody>
 
+                <td>
+
+
+                </td>
+                <td>
+                    @if ($data['flag'] == true)
+                        <div class="">
+
+
+
+                            <p
+                                style="text-align: left; line-height: 28.6px; font-family: 'Playfair Display', serif; font-size: 22px;">
+
+                                <strong>Hello<span>{{ $data['order']->name ?? '-' }}!
+                                    </span>
+                                </strong>
+                            </p>
+                            <div style="font-size: 17px; line-height: 140%; word-wrap: break-word;">
+                                <div>Greetings From {{ config('app.name') }}!<br>Your Account has been created
+                                    successfully <br>the
+                                    following are your login credentials.</div>
+                            </div><br>
+                            <p style="font-size: 14px; line-height: 130%; text-align: center;">
+                                <span
+                                    style="font-size: 36px; line-height: 46.8px; font-family: 'Playfair Display', serif;"><span
+                                        style="line-height: 46.8px; font-size: 36px;">Account's Information</span></span>
+                            </p>
+                            <table>
+
+                                <tbody>
+                                    <tr>
+                                        <th class="table_style">Email:</th>
+                                        <td class="table_style"><strong> {{ $data['order']->email ?? '-' }}
+                                            </strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th class="table_style">Password:</th>
+                                        <td class="table_style"><strong> {{ $data['password'] ?? '-' }}
+                                            </strong></td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+                            <div align="center">
+                                <a href="{{ route('login') }}" target="_blank" class="v-button"
+                                    style="margin-top:2% ; box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #000000; background-color: #f1c40f; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+                                    <span style="display:block;padding:10px 20px;line-height:120%;">Get
+                                        Started</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    @endif
+                    <div>
+
+
+                        <div style="font-size: 17px; line-height: 140%; text-align: center; word-wrap: break-word;">
+                            <div>Following are the details recieved for the order uploaded by you.</div>
+                        </div><br>
+                        <p style="font-size: 14px; line-height: 130%; text-align: center;">
+                            <strong><span
+                                    style="font-size: 22px; line-height: 28.6px; font-family: 'Playfair Display', serif;"><span
+                                        style="line-height: 28.6px; font-size: 22px;">Your
+                                        order ID: </span></span><span
+                                    style="text-align: left; line-height: 28.6px; font-family: 'Playfair Display', serif; font-size: 22px;">
+                                    #{{ $data['order']->id ?? '-' }}
+
+                                </span></strong>
+                        </p>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th class="table_style">Name</th>
+                                    <td class="table_style"><strong> {{ $data['order']->name ?? '-' }}
+                                        </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Email</th>
+                                    <td class="table_style"><strong> {{ $data['order']->email ?? '-' }} </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Country</th>
+                                    <td class="table_style"><strong>{{ $data['order']->country ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Phone</th>
+                                    <td class="table_style"><strong>{{ $data['order']->phone ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Paper Topic</th>
+                                    <td class="table_style"><strong>{{ $data['order']->paper_topic ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Academic Level</th>
+                                    <td class="table_style"><strong>{{ $data['order']->academic_level ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">No Of Pages</th>
+                                    <td class="table_style"><strong>{{ $data['order']->number_of_pages ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Detail</th>
+                                    <td class="table_style"><strong>{{ $data['order']->detail ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Reference Style</th>
+                                    <td class="table_style"><strong>{{$order->style}}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Deadline</th>
+                                    <td class="table_style"><strong>{{ $data['order']->deadline ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">References</th>
+                                    <td class="table_style"><strong>{{ $data['order']->reference ?? '-' }}  </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Subject</th>
+                                    <td class="table_style"><strong>{{ $order->subject_area ?? '-' }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Price Per Page</th>
+                                    <td class="table_style"><strong>{{ addCurrency($data['order']->cost_per_page) ?? '-' }} </strong></td>
+                                </tr>
+                                <tr>
+                                    <th class="table_style">Total Price</th>
+                                    <td class="table_style"><strong>{{ addCurrency($data['order']->total_price) ?? '-' }} </strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <div >
+                            <a href="{{ config('app.tawk_to') }}" target="_blank" class="v-button"
+                                style="margin-top:2% ; box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #000000; background-color: #f1c40f; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+                                <span style="display:block;padding:10px 20px;line-height:120%;">Live Chat</span>
+                            </a>
+                            <a href="{{ route('invoice', ['reference' => $data['invoice']->ref_no]) }}" target="_blank" class="v-button"
+                                style="margin-top:2% ; box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #000000; background-color: #f1c40f; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+                                <span style="display:block;padding:10px 20px;line-height:120%;">Pay Now</span>
+                            </a>
+                        </div>
+                        <div align="left"><br>
+                            if you want to share more information or files related to your order , <br>you can simply email us at <a href="mailto:{{$web_setting->email}}">{{$web_setting->email}}</a><br><br>
+                            For any further queries, feel free to contact us via email or Online Chat,<br><br>
+                            Best Regards <br>
+                            Customer Support,<br>
+                            {{ config('app.app_name') }}
+
+                        </div>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
         </table>
-
-
-        <div style="display:flex ; justify-items: center;">
-            <div style="margin-left:auto ; margin-right:auto;  margin-top:2rem ; margin-bottom:2rem"><a href="{{ route('login') }}"  style="border-radius:4px; background-color:#463033 ; padding:8px; margin-top:4px; color:white ; font-size: 20px; font-weight: bold ;">Login</a></div>
-        </div>
-
-    @endif
-
-    <p>Following are the details recieved for the order uploaded by you</p>
-
-    <p style="font-size:25px ;font-bold ;margin-bottom:20px;text-align:center; color:black">Order Details</p>
-    <table align="center">
-
-        <tr>
-            <th style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Name</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $user->name }}</strong>
-            </td>
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Email</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $user->email }}</strong>
-            </td>
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Phone</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $data['phone'] }}</strong>
-            </td>
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Country</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $data['country'] }}</strong>
-            </td>
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Paper Topic</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $data['paper_topic'] ?? '-' }}</strong>
-            </td>
-
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Paper Type</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $pt  }}</strong>
-            </td>
-
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Academic Level </th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong> {{ $data['academic_level'] ?? '-' }}</strong>
-            </td>
-
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                No Of Pages </th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong> {{ $data['number_of_pages'] ?? '-' }}</strong>
-            </td>
-
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Reference Style </th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong> {{ $rs  }}</strong>
-            </td>
-
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                References </th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong> {{ $data['style'] ?? '-' }}</strong>
-            </td>
-
-        </tr>
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Deadline </th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong> {{ $data['deadline'] ?? '-' }}</strong>
-            </td>
-
-        </tr>
-
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Detail</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong>{{ $data['detail'] ?? '-' }}</strong>
-            </td>
-
-        </tr>
-
-        <tr>
-            <th
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                Total Cost</th>
-            <td
-                style="border: 2px solid #463033;text-align: left;padding: 8px;width: 50% ;color: #463033;font-size: 17px;">
-                <strong> {{ addCurrency($invoice->amount) }}</strong>
-            </td>
-        </tr>
-
-
-
-    </table>
-
-            <div style="display:flex ; justify-items: center;">
-                <div style="margin-left:auto ; margin-right:auto; margin-top:2rem ; margin-bottom:2rem"><a href="https://tawk.to/chat/5f1dc03d5e51983a11f5d499/default"  style="border-radius:4px; background-color:#463033 ; padding:8px; margin-top:4px; color:white ; font-size: 20px; font-weight: bold ;">Live Chat</a></div>
-            </div>
-
-    <p>Kindly make the payment for the confirmation of your order</p>
-    {{-- <button><a style="color: white" href="{{ route('invoice', ['reference' => $invoice->ref_no]) }}">Pay
-            {{ addCurrency($invoice->amount) }}</a></button> --}}
-
-            <div style="display:flex ; justify-items: center;">
-                <div style="margin-left:auto ; margin-right:auto; margin-top:2rem ; margin-bottom:2rem;"><a href="{{ route('invoice', ['reference' => $invoice->ref_no]) }}"  style="border-radius:4px; background-color:#463033 ; padding:8px; margin-top:4px; color:white ; font-size: 20px; font-weight: bold ;">Pay {{ addCurrency($invoice->amount) }}</a></div>
-            </div>
-    <p>if you want to share more information or files related to your order , you can simply email us at
-        {{ config('app.app_email') }}</p>
-    <p>For any further queries, feel free to contact us via email or Online Chat,</p>
-    <p>Best Regards</p>
-    <p>Customer Support,</p>
-    <p>{{ config('app.name') }}</p>
+    </div>
 @endsection
-
-
-
-
+,

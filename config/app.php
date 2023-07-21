@@ -61,6 +61,9 @@ return [
     'app_email' => 'info@4poundessay.co.uk',
 
     'asset_url' => env('ASSET_URL', null),
+    'payment' =>env('PAYMENT_APP_URL'),
+    'source' =>env('APP_SLUG'),
+    'tawk_to' =>env('TAWKTO_LINK'),
 
 
     /*

@@ -9,9 +9,9 @@ Auth::routes([
     //'register'  => true,     // Registration Routes...
     //'verify'    => true,       // Email Verification Routes...
     //'reset'     => true,        // Password Reset Routes...
-    
+
 ]);
-   
+
 
 
 
@@ -116,35 +116,28 @@ Route::group(['namespace'=> 'Web'], function(){
 
     // ContactController
     Route::get('/contact',    "ContactController@create")->name('contact');
-    Route::post('/contact',   "ContactController@store")->name('contact.store'); 
+    Route::post('/contact',   "ContactController@store")->name('contact.store');
 
     //Order
     Route::get('/order' , 'OrderController@create')->name('order');
     Route::post('/order' , 'OrderController@store')->name('order.store');
-    
+
     // invoice
     Route::get('invoice', 'OrderController@invoice')->name('invoice');
-    
-    
+
+
     Route::get('/terms-and-conditions', "PoliciesController@termsAndConditions")->name('policy.terms-and-conditions');
-    
-    
+
+
     // Blogs"
-   
-    Route::get('/blogs','BlogController@create')->name('blog'); 
-    Route::get('/writing-dissertation-questionnaire-dos-and-donts','BlogController@blogseven')->name('blog.seven');
-    Route::get('/10-best-ways-to-write-an-essay', 'BlogController@blogone')->name('blog.one');
-    Route::get('/an-essay-plan-example-by-the-academic-papers-uk','BlogController@blogtwo')->name('blog.two');
-    Route::get('/books-which-are-helpful-for-essay-writing','BlogController@blogthree')->name('blog.three');
-    Route::get('/essay-on-particular-technological-trends' ,'BlogController@blogfour')->name('blog.four');
-    Route::get('/innovation-in-education-in-the-uk','BlogController@blogfive')->name('blog.five');
-    Route::get('/the-structure-and-breakdown-of-1000-words-dissertation','BlogController@blogsix')->name('blog.six');
-   
+    Route::get('/blogs', 'BlogController@create')->name('blog');
+    Route::get('/blogs/{slug}', 'BlogController@show')->name('blogs.show');
+
     // Services
     // Route::get('/services', 'ServiceController@create');
     Route::get('/{slug}' , 'ServiceController@show')->name('service.show');
 
-   
+
 
 
 });

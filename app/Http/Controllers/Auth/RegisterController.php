@@ -57,7 +57,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -69,20 +69,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user =  User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
 
-        //customer
+            $password = Str::random(8);
+
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'password' => Hash::make($password),
+            ]);
+
+            //customer
             $user->roles()->sync(2);
 
-            //Mail::to($data['email'])->send(new UserCreateMail($user, $data['password']));
+           Mail::to($data['email'])->send(new UserCreateMail($user, $password));
 
             return $user;
     }
-
 
     public function register(Request $request)
     {
@@ -90,6 +93,6 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        return redirect()->route('login')->withSuccess('your login credentials has been sent to your email.');
+        return redirect()->route('login')->withSuccess('Auto-Generated password has been sent to your email.');
     }
 }

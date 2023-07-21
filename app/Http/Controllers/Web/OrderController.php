@@ -37,10 +37,10 @@ class OrderController extends Controller
         $reference_styles = RefrenceStyle::orderBy('id', 'ASC')->get();
         $subjects = Subject::orderBy('id', 'ASC')->get();
         $countries = Country::orderBy('id', 'ASC')->get();
-        $web_setting=WebSetting::first();
+        $web_setting = WebSetting::first();
         $fares = Fare::all();
 
-        return view('pages.order', compact('paper_types', 'academic_levels', 'deadlines', 'reference_styles', 'subjects', 'countries','web_setting', 'fares'));
+        return view('pages.order', compact('paper_types', 'academic_levels', 'deadlines', 'reference_styles', 'subjects', 'countries', 'web_setting', 'fares'));
     }
 
     // public function store(StoreOrderRequest $request)
@@ -171,50 +171,52 @@ class OrderController extends Controller
 
         $files = [];
 
-            $order = Order::create($request->all());
+        $order = Order::create($request->all());
 
-            $invoice = Invoice::create([
-                "ref_no" => Str::uuid()->toString(),
-                "amount" => ($fare->per_page_price * $request->number_of_pages),
-                "order_id" => $order->id,
-                "user_id" => $user->id,
-                "gateway" => "stripe",
-                "currency" => "pound",
-            ]);
+        $invoice = Invoice::create([
+            "ref_no" => Str::uuid()->toString(),
+            "amount" => ($fare->per_page_price * $request->number_of_pages),
+            "order_id" => $order->id,
+            "user_id" => $user->id,
+            "gateway" => "stripe",
+            "currency" => "",
+        ]);
 
-            //dd($order);
-            // $styleName=$order->styleFunc->name;
-            // $paperTypeName=$order->Papertype->name;
-            // $subjectName=$order->subject->name;
+        //dd($order);
+        // $styleName=$order->styleFunc->name;
+        // $paperTypeName=$order->Papertype->name;
+        // $subjectName=$order->subject->name;
 
-            $styleName=$order->style;
-            $paperTypeName=$order->Papertype->name;
-            $subjectName=$order->subject_area;
+        $styleName = $order->style;
+        $paperTypeName = $order->Papertype->name;
+        $subjectName = $order->subject_area;
 
-            // check if have some files attache tha add into db with respect to order id
-            if ($request->hasfile('emailAttachments')) {
-                foreach($request->file('emailAttachments') as $file)
-                {
-                    $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
-                    $filePath = $file->storeAs( 'uploads' , $fileName, 'public');
+        // check if have some files attache tha add into db with respect to order id
+        if ($request->hasfile('emailAttachments')) {
+            foreach ($request->file('emailAttachments') as $file) {
+                $fileName = uniqid() . '_' . time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $fileName, 'public');
 
-                    array_push( $files, $filePath);
+                array_push($files, $filePath);
 
-                    File::create([
-                         "order_id" => $order->id,
-                         "file_path" => $filePath
-                    ]);
-                }
+                File::create([
+                    "order_id" => $order->id,
+                    "file_path" => $filePath
+                ]);
             }
+        }
 
-            $data = ['order' => $order,'files'=>$files,'styleName' => $styleName,
-            'paperTypeName'=>$paperTypeName,'subjectName' => $subjectName, 'flag' => $flag,
-            'user' => $user,'invoice' => $invoice, 'password' => $password];
-            //dd($data,$data['order']->paperType->name,$data['order']['reference']);
-            //Mail::to($request->email)->send(new OrderMail($data,$data['order']->paperType->name,$data['order']['reference']));
+        $data = [
+            'order' => $order, 'files' => $files, 'styleName' => $styleName,
+            'paperTypeName' => $paperTypeName, 'subjectName' => $subjectName, 'flag' => $flag,
+            'user' => $user, 'invoice' => $invoice, 'password' => $password
+        ];
+        // dd($data['style']);
+        //dd($data,$data['order']->paperType->name,$data['order']['reference']);
+        Mail::to($request->email)->send(new OrderMail($data, $data['order']->paperType->name, $data['order']['reference'], $order));
 
-            // Send mail to admin
-             //Mail::to(env('MAIL_FROM_ADDRESS', config('app.app_email')) )->send(new OrderAdminMail($request, $files, $styleName,$paperTypeName,$subjectName));
+        // Send mail to admin
+        Mail::to(env('MAIL_FROM_ADDRESS', config('app.app_email')) )->send(new OrderAdminMail($request, $files, $order));
 
         DB::commit();
 
